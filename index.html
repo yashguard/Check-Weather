@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Weather Forecasting</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="blur"></div>
+    <div class="overlay">
+        <nav>
+            Enter your country : <input type="text" id="country">
+            <input type="submit" id="submit" value="Click">
+        </nav>
+        <div class="container">
+            <div class="row">
+                <div class="w-33">
+                    <div class="w-100 text-white">
+                        <h1 id="heading">7 DAY FORECAST</h1>
+                        <br>
+                        <span id="today"></span>
+                        <br>
+                        <span id="location"></span>
+                        <br>
+                        <span id="cel"></span>
+                    </div>
+                </div>
+                <div class="w-33">
+                    <div class="w-100">
+                        <img id="cloud">
+                    </div>
+                </div>
+                <div class="w-33">
+                    <div class="change w-100 text-white">
+                        Feels like : <span id="fl"></span>
+                        <br>
+                        Humidity : <span id="hu"></span>
+                        <br>
+                        Pressure : <span id="pr"></span>
+                        <br>
+                        Wind : <span id="wind"></span>
+                        <br>
+                        Lat : <span id="lat"></span>
+                        <br>
+                        Lon : <span id="lon"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="main_box_1">
+                <h2 class="text-center" id="date_1"></h2>
+                <div class="avgtemp row justify-content-between">
+                    <div id="avgtemp_c_1"></div>
+                    <div id="avgtemp_f_1"></div>
+                </div>
+                <img class="icon" src="" alt="cloud" id="icon_1">
+                <h3 class="text" id="text_1"></h3>
+            </div>
+            <div id="main_box_2">
+                <h2 class="text-center" id="date_2"></h2>
+                <div class="avgtemp row justify-content-between">
+                    <div id="avgtemp_c_2"></div>
+                    <div id="avgtemp_f_2"></div>
+                </div>
+                <img class="icon" src="" alt="cloud" id="icon_2">
+                <h3 class="text" id="text_2"></h3>
+            </div>
+            <div id="main_box_3">
+                <h2 class="text-center" id="date_3"></h2>
+                <div class="avgtemp row justify-content-between">
+                    <div id="avgtemp_c_3"></div>
+                    <div id="avgtemp_f_3"></div>
+                </div>
+                <img class="icon" src="" alt="cloud" id="icon_3">
+                <h3 class="text" id="text_3"></h3>
+            </div>
+            <div id="main_box_4">
+                <h2 class="text-center" id="date_4"></h2>
+                <div class="avgtemp row justify-content-between">
+                    <div id="avgtemp_c_4"></div>
+                    <div id="avgtemp_f_4"></div>
+                </div>
+                <img class="icon" src="" alt="cloud" id="icon_4">
+                <h3 class="text" id="text_4"></h3>
+            </div>
+            <div id="main_box_5">
+                <h2 class="text-center" id="date_5"></h2>
+                <div class="avgtemp row justify-content-between">
+                    <div id="avgtemp_c_5"></div>
+                    <div id="avgtemp_f_5"></div>
+                </div>
+                <img class="icon" src="" alt="cloud" id="icon_5">
+                <h3 class="text" id="text_5"></h3>
+            </div>
+            <div id="main_box_6">
+                <h2 class="text-center" id="date_6"></h2>
+                <div class="avgtemp row justify-content-between">
+                    <div id="avgtemp_c_6"></div>
+                    <div id="avgtemp_f_6"></div>
+                </div>
+                <img class="icon" src="" alt="cloud" id="icon_6">
+                <h3 class="text" id="text_6"></h3>
+            </div>
+            <div id="main_box_7">
+                <h2 class="text-center" id="date_7"></h2>
+                <div class="avgtemp row justify-content-between">
+                    <div id="avgtemp_c_7"></div>
+                    <div id="avgtemp_f_7"></div>
+                </div>
+                <img class="icon" src="" alt="cloud" id="icon_7">
+                <h3 class="text" id="text_7"></h3>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+
+    <script>
+        let submit = document.querySelector("#submit");
+
+        let date = ["date_1", "date_2", "date_3", "date_4", "date_5", "date_6", "date_7"];
+
+        let avgtemp_c = ["avgtemp_c_1", "avgtemp_c_2", "avgtemp_c_3", "avgtemp_c_4", "avgtemp_c_5", "avgtemp_c_6", "avgtemp_c_7"];
+
+        let avgtemp_f = ["avgtemp_f_1", "avgtemp_f_2", "avgtemp_f_3", "avgtemp_f_4", "avgtemp_f_5", "avgtemp_f_6", "avgtemp_f_7"];
+
+        let icon = ["icon_1", "icon_2", "icon_3", "icon_4", "icon_5", "icon_6", "icon_7"];
+
+        let text = ["text_1", "text_2", "text_3", "text_4", "text_5", "text_6", "text_7"];
+
+        submit.addEventListener("click", () => {
+            let country = document.querySelector("#country").value;
+
+            $.ajax({
+                url: "http://api.weatherapi.com/v1/forecast.json?key=f97aee8c693c42fc997150455230302&q=" + country + "&days=7&aqi=yes&alerts=yes",  
+                type: "get",
+                success: function (res) {
+                    console.log(res);
+                    $("#today").html(res.current.last_updated);
+                    $("#location").html(res.location.country);
+                    $("#cel").html(res.current.temp_c);
+                    $("#fl").html(res.current.feelslike_f);
+                    $("#hu").html(res.current.humidity);
+                    $("#pr").html(res.current.pressure_mb);
+                    $("#wind").html(res.current.wind_kph);
+                    $("#lat").html(res.location.lat);
+                    $("#lon").html(res.location.lon);
+                    $("#cloud").attr('src', res.current.condition.icon);
+                    $("#temp_c").html(res.current.temp_c);
+                    $("#temp_f").html(res.current.temp_f);
+                    for (let i = 0; i < date.length; i++) {
+                        $("#" + date[i]).html(res.forecast.forecastday[i].date);
+                        $("#" + avgtemp_c[i]).html(res.forecast.forecastday[i].day.avgtemp_c);
+                        $("#" + avgtemp_f[i]).html(res.forecast.forecastday[i].day.avgtemp_f);
+                        $("#" + icon[i]).attr('src', res.forecast.forecastday[i].day.condition.icon);
+                        $("#" + text[i]).html(res.forecast.forecastday[i].day.condition.text);
+                    }
+                }
+            })
+            document.querySelector("#country").value = "";
+            document.querySelector("#country").focus();
+        })
+    </script>
+</body>
+
+</html>
